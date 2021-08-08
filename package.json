@@ -2,16 +2,21 @@
   "name": "exercise-manager",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "dependencies": {
+    "babel": "^6.23.0",
+    "global": "^4.4.0",
     "next": "^11.0.1",
+    "now": "^21.0.1",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "styled-components": "^5.3.0",
+    "webpack": "^5.49.0"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "next"
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
   },
   "author": "",
   "license": "ISC"

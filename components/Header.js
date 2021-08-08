@@ -4,8 +4,8 @@ const Header = () => {
     return (
         <header>
             <nav>
-                <Link href="/">Main</Link>
-                <Link href="/search">Search</Link>
+                <Link href="/"><a>Main</a></Link>
+                <Link href="/search"><a>Search</a></Link>
             </nav>
         </header>
     )

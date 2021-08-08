@@ -10,22 +10,37 @@ import Layout from "../components/Layout";
 //     )
 // }
 
+const Item = ({ children }) => {
+    return(
+        <li>
+            name : {children.name} || username : {children.username} || email : {children.email}
+        </li>
+    );
+}
+
 class Search extends React.Component {
     static async getInitialProps ({ req }) {
-        fetch("https://jsonplaceholder.typicode.com/users")
-        .then(res => {
-            res.blob();
-        })
-        .then(blob => {
-            console.log(blob);
-        });
+        
+        let userlist = new Array();
 
-        return req ? { from : "server" } : { from : "client" };
+        await fetch("https://jsonplaceholder.typicode.com/users")
+        .then(res => {
+            return res.json();
+        })
+        .then(json => {
+            json.forEach(item => {
+                userlist.push(<Item>{item}</Item>)
+            })
+        })
+
+        console.log(userlist);
+
+        return { users : userlist };
     }
     render() {
         return (
             <Layout>
-                {this.props.from}측 실행
+                {this.props.users}
             </Layout>
         )
     }
