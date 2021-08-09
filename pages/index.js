@@ -2,25 +2,26 @@ import Link from 'next/link';
 import Layout from '../components/Layout'
 import Head from 'next/head';
 
-const Index = () => (
-    <html>
-        <style jsx>
-        {`
-            html, body {
-                width: 100%;
-                height: 100%;
-                color: #fff;
-                background-color: #121212;
-            }
-        `}
-        </style>
-        <Head>
-            <title>Exercise Manager</title>
-        </Head>
+const Index = () => {
+    return (
         <Layout>
-            <h1 className="title" style={{ fontSize: "5.5rem", fontFamily: "'Roboto', sans-serif" }}>Exercise Manager</h1>
+            <style jsx>
+            {`
+                .title {
+                    color: #121212;
+                    font-size: 4.5rem;
+                    font-weight: 100;
+                    font-family: 'Titillium Web', sans-serif;
+                    text-transform: uppercase;
+                    letter-spacing: 6rem;
+                }
+            `}
+            </style>
+            <Head>
+                <title>Exercise Manager</title>
+            </Head>
+                <h1 className="title">Exercise Manager</h1>
         </Layout>
-    </html>
-)
-
+    )
+}
 export default Index;
