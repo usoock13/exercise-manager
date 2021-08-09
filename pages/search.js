@@ -2,14 +2,6 @@ import React from "react";
 import { useRouter } from "next/router";
 import Layout from "../components/Layout";
 
-// const Search = ({ url }) => {
-//     return (
-//         <Layout>
-//             <SSRTest />
-//         </Layout>
-//     )
-// }
-
 const Item = ({ children }) => {
     return(
         <li>
@@ -32,8 +24,6 @@ class Search extends React.Component {
                 userlist.push(<Item>{item}</Item>)
             })
         })
-
-        console.log(userlist);
 
         return { users : userlist };
     }

@@ -1,0 +1,3 @@
+function MyApp({ Component, pageProps }) {
+
+}

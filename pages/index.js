@@ -1,20 +1,24 @@
 import Link from 'next/link';
 import Layout from '../components/Layout'
 import Head from 'next/head';
-import styled, { css } from 'styled-components';
-
-const Title = styled.h1`
-    color: #fff;
-    background-color: #232323;
-`;
 
 const Index = () => (
     <html>
+        <style jsx>
+        {`
+            html, body {
+                width: 100%;
+                height: 100%;
+                color: #fff;
+                background-color: #121212;
+            }
+        `}
+        </style>
         <Head>
-            <title>운동 관리자</title>
+            <title>Exercise Manager</title>
         </Head>
         <Layout>
-            <Title className="title">운동 관리자</Title>
+            <h1 className="title" style={{ fontSize: "5.5rem", fontFamily: "'Roboto', sans-serif" }}>Exercise Manager</h1>
         </Layout>
     </html>
 )
