@@ -8,3 +8,11 @@ html, body, #__next, .layout {
     width: 100%;
     height: 100%;
 }
+
+a {
+    color: inherit;
+    /* font-family: 'NanumSquareRound',sans-serif; */
+    font-family: 'NanumSquare', sans-serif;
+    font-weight: 900;
+    text-decoration: none;
+}

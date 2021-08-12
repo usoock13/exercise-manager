@@ -6,8 +6,8 @@ const Layout = ({children}) => (
         display: 'flex',
         flexDirection: 'row'
     }}>
-        <Header headerStyle={{ height: '100%', flexGrow: "1" }} />
-        <div className="content_wrap" style={{ height: '100%', flexGrow: "9" }}>
+        <Header headerStyle={{ flexGrow: "1", flexBasis: 0 }} />
+        <div className="content_wrap" style={{ flexGrow: "7", flexBasis: 0 }}>
             {children}
         </div>
     </div>
