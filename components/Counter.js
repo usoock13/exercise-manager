@@ -1,6 +1,6 @@
 import React from 'react';
 
-const PopupCounter = ({ isActivingCounter }) => {
+const PopupCounter = ({ setIsActiveCounter, isActivingCounter }) => {
     const CounterStyle = {
         overflow: 'hidden',
     }
@@ -17,10 +17,14 @@ const PopupCounter = ({ isActivingCounter }) => {
         flexGrow: 9,
         flexBasis: 0,
     }
+    
+    const onClickExitButton = () => {
+        setIsActiveCounter(false);
+    }
 
     return(
         <div className="popup_counter" style={isActivingCounter ? activeCounterStyle : inectiveCounterStyle}>
-            <button className="exit_button" onClick={}>&times;</button>
+            <button className="exit_button" onClick={onClickExitButton}>&times;</button>
             __name
         </div>
     );

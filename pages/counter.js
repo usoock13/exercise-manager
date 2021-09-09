@@ -3,7 +3,7 @@ import Head from 'next/head';
 import React, { useState } from 'react';
 import Counter from '../components/Counter';
 
-const CounterListItem = ({ setActiveCounterFunctions : setActFunc, data }) => {
+const CounterListItem = ({ setIsActiveCounter, data }) => {
     let itemStyle = {
         color: '#494949',
         fontSize: '1.5rem',
@@ -17,8 +17,7 @@ const CounterListItem = ({ setActiveCounterFunctions : setActFunc, data }) => {
         index >= data.counterArray.length-1 ? counters.push(`${item}`) : counters.push(`${item}, `)
     })
     let ActiveThisCounter = () => {
-        setActFunc.onActiveCounter();
-        console.log(setActFunc.onActiveCounter);
+        setIsActiveCounter(true);
     }
 
     return(
@@ -91,14 +90,6 @@ let dummyData = [
 const CounterPage = (props) => {
     const [isActivingCounter, setIsActiveCounter] = useState(0);
     console.dir(props);
-    const setActiveCounterFunctions = {
-        onActiveCounter: () => {
-            setIsActiveCounter(true);
-        },
-        onInectiveCounter: () => {
-            setIsActiveCounter(false);
-        }
-    }
     let listStyle = {
         transition: 'grid-template-columns',
         display: 'grid',
@@ -125,7 +116,7 @@ const CounterPage = (props) => {
             <CounterListItem
                 key={item.id} 
                 data={item} 
-                setActiveCounterFunctions={setActiveCounterFunctions}
+                setIsActiveCounter={setIsActiveCounter}
             />
         )
     })
@@ -140,7 +131,7 @@ const CounterPage = (props) => {
                                         {itemlist}
                             </ul>
     const popupCounter = <Counter 
-                            setActiveCounterFunctions={setActiveCounterFunctions} 
+                            setIsActiveCounter={setIsActiveCounter} 
                             isActivingCounter={isActivingCounter} 
                         />
 
