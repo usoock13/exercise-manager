@@ -1,6 +1,7 @@
 import Layout from '../components/Layout'
 import Head from 'next/head';
 import React, { useState } from 'react';
+import { connect } from "react-redux";
 import Counter from '../components/Counter';
 
 const CounterListItem = ({ setIsActiveCounter, data }) => {
@@ -29,23 +30,6 @@ const CounterListItem = ({ setIsActiveCounter, data }) => {
         </li>
     );
 }
-
-/*  죽어라 끔찍한 데이터 페칭
-export async function getStaticProps() {
-     const data = await fetch("https://jsonplaceholder.typicode.com/users")
-    .then(res => {
-        return res.json();
-    })
-
-    console.log("Death is only the beginning")
-
-    return { 
-        props : {
-            data
-        } 
-    };
-}
-*/
 
 let dummyData = [
     {
@@ -86,10 +70,10 @@ let dummyData = [
     }
 ];
 
-
 const CounterPage = (props) => {
+
     const [isActivingCounter, setIsActiveCounter] = useState(0);
-    console.dir(props);
+    console.dir(props.pageProps);
     let listStyle = {
         transition: 'grid-template-columns',
         display: 'grid',
@@ -152,4 +136,19 @@ const CounterPage = (props) => {
         </Layout>
     )
 }
-export default CounterPage;
+
+CounterPage.getInitialProps = async ({ store }) => {
+    let data = await fetch('https://jsonplaceholder.typicode.com/users')
+        .then(res => {
+            return res.json().then(json => {
+                return json;
+            });
+        })
+    return { 
+        pageProps : {
+            data
+        }
+    };
+}
+
+export default connect((state) => state)(CounterPage);
