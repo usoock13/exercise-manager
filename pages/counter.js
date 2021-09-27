@@ -5,6 +5,9 @@ import React, { useState } from 'react';
 import { connect } from "react-redux";
 import Counter from '../components/Counter';
 
+const COUNTER_ARRAY = "counter_array";
+const COUNTER_NAME = 'counter_name';
+
 const CounterListItem = ({ setIsActiveCounter, data }) => {
     let itemStyle = {
         color: '#494949',
@@ -15,8 +18,8 @@ const CounterListItem = ({ setIsActiveCounter, data }) => {
         userSelect: 'none',
     }
     let counters = [];
-    data.counterArray.map((item, index) => {
-        index >= data.counterArray.length-1 ? counters.push(`${item}`) : counters.push(`${item}, `)
+    data[COUNTER_ARRAY].map((item, index) => {
+        index >= data[COUNTER_ARRAY].length-1 ? counters.push(`${item}`) : counters.push(`${item}, `)
     })
     let ActiveThisCounter = () => {
         setIsActiveCounter(true);
@@ -24,14 +27,14 @@ const CounterListItem = ({ setIsActiveCounter, data }) => {
 
     return(
         <li className="counter_itembox" style={itemStyle} onClick={ActiveThisCounter}>
-            <h5 style={{ fontSize: "2.3rem" }}>{data.name}</h5>
+            <h5 style={{ fontSize: "2.3rem" }}>{data[COUNTER_NAME]}</h5>
             <div className="counter_thumbnail">
                 <p style={{ fontSize: "1.5rem", fontWeight: 300 }}> {counters} </p>
             </div>
         </li>
     );
 }
-
+/*
 let dummyData = [
     {
         id: 35,
@@ -70,10 +73,9 @@ let dummyData = [
         orderReverse: false,
     }
 ];
-
-const CounterPage = (props) => {
+*/
+const CounterPage = ({ pageProps }) => {
     const [isActivingCounter, setIsActiveCounter] = useState(0);
-    console.dir(props.pageProps);
     let listStyle = {
         transition: 'grid-template-columns',
         display: 'grid',
@@ -95,7 +97,9 @@ const CounterPage = (props) => {
         gridGap: '1%'
     }
     let itemlist = [];
-    dummyData.forEach(item => {
+    
+    console.log(pageProps.counterItems);
+    pageProps.counterItems.forEach(item => {
         itemlist.push(
             <CounterListItem
                 key={item.id} 
@@ -138,19 +142,15 @@ const CounterPage = (props) => {
 }
 
 CounterPage.getInitialProps = async ({ store, req }) => {
-    let counteritems = await fetch(`http://${req.headers.host}/api/post_router`, {
-        method: "POST"
+    let counterItems = await fetch(`http://${req.headers.host}/api/post_router`, {
+        method: "POST",
     })
-    .then(res => {
-        return res.json();
-    })
-    .then(json => {
-        return json;
-    });
+    .then(res => res.json())
+    .then(json => json);
 
     return {
         pageProps : {
-            counteritems
+            counterItems
         }
     };
 }
