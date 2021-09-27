@@ -1,5 +1,6 @@
 import Layout from '../components/Layout'
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { connect } from "react-redux";
 import Counter from '../components/Counter';
@@ -71,7 +72,6 @@ let dummyData = [
 ];
 
 const CounterPage = (props) => {
-
     const [isActivingCounter, setIsActiveCounter] = useState(0);
     console.dir(props.pageProps);
     let listStyle = {
@@ -137,16 +137,20 @@ const CounterPage = (props) => {
     )
 }
 
-CounterPage.getInitialProps = async ({ store }) => {
-    let data = await fetch('https://jsonplaceholder.typicode.com/users')
-        .then(res => {
-            return res.json().then(json => {
-                return json;
-            });
-        })
-    return { 
+CounterPage.getInitialProps = async ({ store, req }) => {
+    let counteritems = await fetch(`http://${req.headers.host}/api/post_router`, {
+        method: "POST"
+    })
+    .then(res => {
+        return res.json();
+    })
+    .then(json => {
+        return json;
+    });
+
+    return {
         pageProps : {
-            data
+            counteritems
         }
     };
 }
