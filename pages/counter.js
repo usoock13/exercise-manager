@@ -3,12 +3,12 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { connect } from "react-redux";
-import Counter from '../components/Counter';
+import PopupCounter from '../components/PopupCounter';
 
-const COUNTER_ARRAY = "counter_array";
-const COUNTER_NAME = 'counter_name';
+const DB_COUNTER_ARRAY = "counter_array";
+const DB_COUNTER_NAME = 'counter_name';
 
-const CounterListItem = ({ setIsActiveCounter, data }) => {
+const CounterItem = ({ setIsActiveCounter, itemData }) => {
     let itemStyle = {
         color: '#494949',
         fontSize: '1.5rem',
@@ -18,8 +18,10 @@ const CounterListItem = ({ setIsActiveCounter, data }) => {
         userSelect: 'none',
     }
     let counters = [];
-    data[COUNTER_ARRAY].map((item, index) => {
-        index >= data[COUNTER_ARRAY].length-1 ? counters.push(`${item}`) : counters.push(`${item}, `)
+    itemData[DB_COUNTER_ARRAY].map((item, index) => {
+        index >= itemData[DB_COUNTER_ARRAY].length-1 
+            ? counters.push(`${item.number}`) 
+            : counters.push(`${item.number}, `)
     })
     let ActiveThisCounter = () => {
         setIsActiveCounter(true);
@@ -27,55 +29,22 @@ const CounterListItem = ({ setIsActiveCounter, data }) => {
 
     return(
         <li className="counter_itembox" style={itemStyle} onClick={ActiveThisCounter}>
-            <h5 style={{ fontSize: "2.3rem" }}>{data[COUNTER_NAME]}</h5>
+            <h5 style={{ fontSize: "2.3rem" }}>{itemData[DB_COUNTER_NAME]}</h5>
             <div className="counter_thumbnail">
-                <p style={{ fontSize: "1.5rem", fontWeight: 300 }}> {counters} </p>
+                <p style={{ fontSize: "1.5rem", fontWeight: 300 }}>
+                    {counters}
+                </p>
             </div>
         </li>
     );
 }
-/*
-let dummyData = [
-    {
-        id: 35,
-        name: "20 매칭 카운터",
-        counterArray: [19, 1, 18, 2, 17, 3, 16, 4, 15, 5, 14, 6, 13, 7, 12, 8, 11, 9, 10],
-        orderReverse: false,
-    },
-    {
-        id: 36,
-        name: "12회 3세트",
-        counterArray: [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
-        orderReverse: false,
-    },
-    {
-        id: 37,
-        name: "20 매칭 카운터",
-        counterArray: [19, 1, 18, 2, 17, 3, 16, 4, 15, 5, 14, 6, 13, 7, 12, 8, 11, 9, 10],
-        orderReverse: false,
-    },
-    {
-        id: 38,
-        name: "12회 3세트",
-        counterArray: [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
-        orderReverse: false,
-    },
-    {
-        id: 39,
-        name: "20 매칭 카운터",
-        counterArray: [19, 1, 18, 2, 17, 3, 16, 4, 15, 5, 14, 6, 13, 7, 12, 8, 11, 9, 10],
-        orderReverse: false,
-    },
-    {
-        id: 40,
-        name: "12회 3세트",
-        counterArray: [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
-        orderReverse: false,
-    }
-];
-*/
-const CounterPage = ({ pageProps }) => {
+const CounterPage = (props) => {
     const [isActivingCounter, setIsActiveCounter] = useState(0);
+    const [currentCounter, setCurrentCounter] = useState(
+        props.counterItems.length > 0
+        ? props.counterItems[0]
+        : null
+    );
     let listStyle = {
         transition: 'grid-template-columns',
         display: 'grid',
@@ -98,30 +67,29 @@ const CounterPage = ({ pageProps }) => {
     }
     let itemlist = [];
     
-    console.log(pageProps.counterItems);
-    pageProps.counterItems.forEach(item => {
+    if(props.counterItems) props.counterItems.forEach(item => {
         itemlist.push(
-            <CounterListItem
+            <CounterItem
                 key={item.id} 
-                data={item} 
+                itemData={item} 
                 setIsActiveCounter={setIsActiveCounter}
             />
         )
-    })
+    }) // Counter Item 유무에 따른 레이아웃 구분 필요
 
     const counterListStyle = {
         ...listStyle,
         ...(isActivingCounter ? isCountingStyle : notCountingStyle)
     }
-
     const simpleCounterList = <ul className="simple_counter_list" 
                                 style={counterListStyle}>
                                         {itemlist}
                             </ul>
-    const popupCounter = <Counter 
-                            setIsActiveCounter={setIsActiveCounter} 
-                            isActivingCounter={isActivingCounter} 
-                        />
+    const popupCounter = <PopupCounter 
+                            setIsActivePopupCounter={setIsActiveCounter} 
+                            isActivingPopupCounter={isActivingCounter} 
+                            currentCounter={currentCounter}
+                        ></PopupCounter>
 
     return (
         <Layout>
@@ -141,15 +109,17 @@ const CounterPage = ({ pageProps }) => {
     )
 }
 
-CounterPage.getInitialProps = async ({ store, req }) => {
+export const getServerSideProps = async ({ store, req }) => {
     let counterItems = await fetch(`http://${req.headers.host}/api/post_router`, {
         method: "POST",
     })
-    .then(res => res.json())
-    .then(json => json);
-
+    .then(res => {
+        if(res.status !== 200) { return false; }
+        else { return res.json(); }
+    })
+    
     return {
-        pageProps : {
+        props : {
             counterItems
         }
     };

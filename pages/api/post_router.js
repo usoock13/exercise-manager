@@ -7,6 +7,7 @@ export default (req, res) => {
         GetCounterItems(async (err, data) => {
             if(err) {
                 console.error(err);
+                res.status(500).send("Server don't responding");
             } else {
                 await data.Items.forEach(item => {
                     items.push(item);

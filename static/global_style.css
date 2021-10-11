@@ -1,18 +1,15 @@
 :root {
     font-size: calc(10vw / 19.2);
-    font-family: 'Titillium Web', sans-serif;
+    font-family: 'NanumSquare',sans-serif;
 }
-
 html, body, #__next, .layout {
     position: relative;
     width: 100%;
     height: 100%;
 }
-
 a {
     color: inherit;
-    /* font-family: 'NanumSquareRound',sans-serif; */
-    font-family: 'NanumSquare', sans-serif;
+    font-family: 'NanumSquareRound',sans-serif;
     font-weight: 900;
     text-decoration: none;
 }

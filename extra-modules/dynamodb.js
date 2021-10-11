@@ -25,10 +25,10 @@ export const InsertCounterItems = async (callback) => {
 
 export const GetCounterItems = async (callback) => {
     const params = {
-        TableName: "exermana-count",
+        TableName: "exermana-counter",
         KeyConditionExpression: "#author = :author",
         ExpressionAttributeNames: {
-            "#author": "count_author"
+            "#author": "counter_author"
         },
         ExpressionAttributeValues: {
             ":author": "usoock"
