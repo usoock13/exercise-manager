@@ -11,7 +11,7 @@ import AddCounterItemButton from '../components/Counter/AddCounterItemButton';
 const DB_COUNTER_ARRAY = "counter_array";
 const DB_COUNTER_NAME = 'counter_name';
 
-const CounterItem = ({ setIsActiveCounter, itemData }) => {
+const CounterItem = ({ setIsActiveCounter, itemData, counterItemClickHandler }) => {
     let counters = [];
     itemData[DB_COUNTER_ARRAY].map((item, index) => {
         index >= itemData[DB_COUNTER_ARRAY].length-1 
@@ -19,6 +19,7 @@ const CounterItem = ({ setIsActiveCounter, itemData }) => {
             : counters.push(`${item.number}, `)
     })
     let ActiveThisCounter = () => {
+        counterItemClickHandler();
         setIsActiveCounter(true);
     }
 
@@ -58,11 +59,80 @@ const CounterItem = ({ setIsActiveCounter, itemData }) => {
         </li>
     );
 }
+
+const dummyCounterItems = [
+    {
+        "counter_author": "usoock",
+        "counter_id": "154",
+        "counter_array": [
+            {
+                "number": 1,
+                "info": ""
+            },
+            {
+                "number": 2,
+                "info": ""
+            },
+            {
+                "number": 3,
+                "info": ""
+            },
+            {
+                "number": 1,
+                "info": ""
+            },
+            {
+                "number": 2,
+                "info": ""
+            },
+            {
+                "number": 3,
+                "info": ""
+            }
+        ],
+        "counter_name": "제비 카운터"
+    },
+    {
+        "counter_author": "usoock",
+        "counter_id": "265",
+        "counter_array": [
+            {
+                "number": 12,
+                "info": "공중제비 1세트"
+            },
+            {
+                "number": 12,
+                "info": "다리후리기 1세트"
+            },
+            {
+                "number": 12,
+                "info": "공중제비 2세트"
+            },
+            {
+                "number": 12,
+                "info": "다리후리기 2세트"
+            },
+            {
+                "number": 12,
+                "info": "공중제비 3세트"
+            },
+            {
+                "number": 12,
+                "info": "다리후리기 3세트"
+            }
+        ],
+        "counter_name": "12-3 순차 카운터"
+    }
+
+]
+
 const CounterPage = (props) => {
+    const counterItems = !props.counterItems ? dummyCounterItems : props.counterItems;
+
     const [isActivingCounter, setIsActiveCounter] = useState(0);
     const [currentCounter, setCurrentCounter] = useState(
-        props.counterItems.length > 0
-        ? props.counterItems[0]
+        counterItems.length > 0
+        ? counterItems[0]
         : null
     );
     let baseListStyle = {
@@ -86,6 +156,10 @@ const CounterPage = (props) => {
     } // ...카운터 활성화 중일 때
     const itemlist = [];
 
+    const counterItemClickHandler = (targetCounterItem) => {
+        setCurrentCounter(targetCounterItem);
+    }
+
     useEffect(() => {
         setNotCountingListStyle({
             ...notCountingListStyle,
@@ -107,15 +181,16 @@ const CounterPage = (props) => {
         })
     }, [])
     
-    if(props.counterItems) props.counterItems.forEach(item => {
+    counterItems.forEach((item, index) => {
         itemlist.push(
             <CounterItem
                 key={item.id} 
                 itemData={item} 
                 setIsActiveCounter={setIsActiveCounter}
+                counterItemClickHandler={() => {counterItemClickHandler(item)}}
             />
         )
-    }) // Counter Item 유무에 따른 레이아웃 구분 필요
+    })
 
     const counterListStyle = {
         ...baseListStyle,

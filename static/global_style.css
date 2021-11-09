@@ -2,7 +2,7 @@
     font-size: calc(10vw / 19.2);
     font-family: 'NanumSquare',sans-serif;
     --point-color: rgb(77,81,211);
-    --point-background-color: rgb(238, 238, 255);
+    --point-background-color: rgb(215, 215, 255);
 }
 html, body, #__next, .layout {
     position: relative;

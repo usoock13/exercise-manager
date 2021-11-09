@@ -73,7 +73,7 @@ const PopupCounter = ({ setIsActivePopupCounter, isActivingPopupCounter, current
                 height: 55%;
                 justify-content: center;
                 align-items: center;
-                background-color: #efeffb;
+                background-color: var(--point-background-color);
                 box-shadow: 0 .3rem .65rem rgba(0, 0, 0, .12);
                 border-radius: 2.4rem;
                 cursor: pointer;
@@ -130,6 +130,7 @@ const PopupCounter = ({ setIsActivePopupCounter, isActivingPopupCounter, current
                             <span className="current_turn_number">
                                 {currentCounter.counter_array[currentTurn] && currentCounter.counter_array[currentTurn].number}
                             </span>
+                            <br />
                             <span className="current_turn_info">
                                 {currentCounter.counter_array[currentTurn] && currentCounter.counter_array[currentTurn].info}
                             </span>
