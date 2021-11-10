@@ -60,17 +60,12 @@ const PopupCounter = ({ setIsActivePopupCounter, isActivingPopupCounter, current
                 font-weight: 700;
                 text-align: center;
             }
-            .current_turn_number {
-                transition: font-size 100ms ease;
-                font-family: 'NanumSquareRound', sans-serif;
-                font-size: calc(1em + 40px);
-                font-weight: 900
-            }
             .current_turn_viewer {
                 display: inline-flex;
                 max-width: 480px;
                 width: 80%;
                 height: 55%;
+                flex-direction: column;
                 justify-content: center;
                 align-items: center;
                 background-color: var(--point-background-color);
@@ -78,6 +73,17 @@ const PopupCounter = ({ setIsActivePopupCounter, isActivingPopupCounter, current
                 border-radius: 2.4rem;
                 cursor: pointer;
                 user-select: none;
+            }
+            .current_turn_number {
+                transition: font-size 100ms ease;
+                font-family: 'NanumSquareRound', sans-serif;
+                font-size: calc(1em + 40px);
+                font-weight: 900;
+            }
+            .current_turn_info {
+                display: block;
+                font-size: calc(.5em + 12px);
+                font-weight: 900;
             }
             .current_turn_viewer:hover .current_turn_number {
                 font-size: calc(.72em + 40px) !important;
@@ -127,12 +133,11 @@ const PopupCounter = ({ setIsActivePopupCounter, isActivingPopupCounter, current
                         <div className="current_turn_viewer" 
                             onClick={ToNextTurn}
                         >
-                            <span className="current_turn_number">
-                                {currentCounter.counter_array[currentTurn] && currentCounter.counter_array[currentTurn].number}
-                            </span>
-                            <br />
                             <span className="current_turn_info">
                                 {currentCounter.counter_array[currentTurn] && currentCounter.counter_array[currentTurn].info}
+                            </span>
+                            <span className="current_turn_number">
+                                {currentCounter.counter_array[currentTurn] && currentCounter.counter_array[currentTurn].number}
                             </span>
                         </div>
                     }
