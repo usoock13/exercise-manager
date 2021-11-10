@@ -31,7 +31,7 @@ const PopupCounter = ({ setIsActivePopupCounter, isActivingPopupCounter, current
     }
 
     useEffect(() => {
-        if(!currentCounter.counter_array[currentTurn])
+        if(currentCounter!==null && !currentCounter.counter_array[currentTurn])
             setIsClear(true);
     }, [ currentTurn ])
 
@@ -114,7 +114,9 @@ const PopupCounter = ({ setIsActivePopupCounter, isActivingPopupCounter, current
             <button className="exit_button" onClick={OnClickExitButton}>
                 &times;
             </button>
-            <div className="popup_counter_wrap">
+            {currentCounter===null 
+            ? <div className="empty_counter_alert"></div> 
+            : <div className="popup_counter_wrap">
                 <h3>{currentCounter.counter_name}</h3>
                     {isClear
                         ?
@@ -141,7 +143,7 @@ const PopupCounter = ({ setIsActivePopupCounter, isActivingPopupCounter, current
                             </span>
                         </div>
                     }
-            </div>
+            </div>}
         </div>
     );
 }

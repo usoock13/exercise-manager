@@ -1,20 +1,71 @@
 import { createAction } from 'redux-actions';
-import { HYDRATE } from 'next-redux-wrapper';
+import { createWrapper, HYDRATE } from 'next-redux-wrapper';
+import { createStore } from 'redux';
 
 export const initialState = {
     counters : [
         {
-            id: 0,
-            name: "20 매칭 카운터",
-            counterArray: [19, 1, 18, 2, 17, 3, 16, 4, 15, 5, 14, 6, 13, 7, 12, 8, 11, 9, 10],
-            orderReverse: false
+            "counter_author": "usoock",
+            "counter_id": "153",
+            "counter_array": [
+                {
+                    "number": 1,
+                    "info": ""
+                },
+                {
+                    "number": 2,
+                    "info": ""
+                },
+                {
+                    "number": 3,
+                    "info": ""
+                },
+                {
+                    "number": 1,
+                    "info": ""
+                },
+                {
+                    "number": 2,
+                    "info": ""
+                },
+                {
+                    "number": 3,
+                    "info": ""
+                }
+            ],
+            "counter_name": "제비 카운터"
         },
         {
-            id: 1,
-            name: "12회 3세트",
-            counterArray: [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
-            orderReverse: false
-        }
+            "counter_author": "usoock",
+            "counter_id": "265",
+            "counter_array": [
+                {
+                    "number": 12,
+                    "info": "공중제비 1세트"
+                },
+                {
+                    "number": 12,
+                    "info": "다리후리기 1세트"
+                },
+                {
+                    "number": 12,
+                    "info": "공중제비 2세트"
+                },
+                {
+                    "number": 12,
+                    "info": "다리후리기 2세트"
+                },
+                {
+                    "number": 12,
+                    "info": "공중제비 3세트"
+                },
+                {
+                    "number": 12,
+                    "info": "다리후리기 3세트"
+                }
+            ],
+            "counter_name": "12-3 순차 카운터"
+        }    
     ]
 }
 
@@ -32,6 +83,11 @@ export const deleteCounterAction = (id) => ({
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
+        case HYDRATE :
+            return ({
+                ...state,
+                ...action.payload
+            })
         case CREATE_COUNTER :
             return ({
                 ...state,
@@ -49,4 +105,6 @@ const reducer = (state = initialState, action) => {
     }
 }
 
-export default reducer;
+// export default reducer;
+const makeStore = (context) => createStore(reducer);
+export const wrapper = createWrapper(makeStore, { debug: true });

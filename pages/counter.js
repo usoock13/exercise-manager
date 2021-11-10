@@ -3,7 +3,6 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
 import { connect } from "react-redux";
-
 import ComponentByResolution from '../components/ComponentByResolution';
 import PopupCounter from '../components/Counter/PopupCounter';
 import AddCounterItemButton from '../components/Counter/AddCounterItemButton';
@@ -60,73 +59,10 @@ const CounterItem = ({ setIsActiveCounter, itemData, counterItemClickHandler }) 
     );
 }
 
-const dummyCounterItems = [
-    {
-        "counter_author": "usoock",
-        "counter_id": "154",
-        "counter_array": [
-            {
-                "number": 1,
-                "info": ""
-            },
-            {
-                "number": 2,
-                "info": ""
-            },
-            {
-                "number": 3,
-                "info": ""
-            },
-            {
-                "number": 1,
-                "info": ""
-            },
-            {
-                "number": 2,
-                "info": ""
-            },
-            {
-                "number": 3,
-                "info": ""
-            }
-        ],
-        "counter_name": "제비 카운터"
-    },
-    {
-        "counter_author": "usoock",
-        "counter_id": "265",
-        "counter_array": [
-            {
-                "number": 12,
-                "info": "공중제비 1세트"
-            },
-            {
-                "number": 12,
-                "info": "다리후리기 1세트"
-            },
-            {
-                "number": 12,
-                "info": "공중제비 2세트"
-            },
-            {
-                "number": 12,
-                "info": "다리후리기 2세트"
-            },
-            {
-                "number": 12,
-                "info": "공중제비 3세트"
-            },
-            {
-                "number": 12,
-                "info": "다리후리기 3세트"
-            }
-        ],
-        "counter_name": "12-3 순차 카운터"
-    }
-
-]
-
 const CounterPage = (props) => {
+    console.log(props);
+
+    const dummyCounterItems = [];
     const counterItems = !props.counterItems ? dummyCounterItems : props.counterItems;
 
     const [isActivingCounter, setIsActiveCounter] = useState(0);
@@ -182,6 +118,7 @@ const CounterPage = (props) => {
     }, [])
     
     counterItems.forEach((item, index) => {
+        item['current_turn'] = 0;
         itemlist.push(
             <CounterItem
                 key={item.id} 
@@ -224,8 +161,10 @@ const CounterPage = (props) => {
     )
 }
 
-export const getServerSideProps = async ({ store, req }) => {
-    let counterItems = await fetch(`http://${req.headers.host}/api/post_router`, {
+export const getServerSideProps = async (props) => {
+    console.log("유황가게");
+    console.log(props.store);
+    let counterItems = await fetch(`http://${props.req.headers.host}/api/post_router`, {
         method: "POST",
     })
     .then(res => {
@@ -239,5 +178,4 @@ export const getServerSideProps = async ({ store, req }) => {
         }
     };
 }
-
 export default connect((state) => state)(CounterPage);
