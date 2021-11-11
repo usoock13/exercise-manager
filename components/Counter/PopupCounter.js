@@ -16,7 +16,8 @@ const PopupCounter = ({ setIsActivePopupCounter, isActivingPopupCounter, current
         flexGrow: 9,
     }
     
-    const [currentTurn, setCurrentTurn] = useState(0);
+    const [currentTurn, setCurrentTurn] = useState(currentCounter && useState(currentCounter['current_turn']) || 0);
+    console.log("유숙은 자유에요 : ", currentTurn);
     const [isClear, setIsClear] = useState(false);
 
     const OnClickExitButton = () => {
@@ -114,9 +115,8 @@ const PopupCounter = ({ setIsActivePopupCounter, isActivingPopupCounter, current
             <button className="exit_button" onClick={OnClickExitButton}>
                 &times;
             </button>
-            {currentCounter===null 
-            ? <div className="empty_counter_alert"></div> 
-            : <div className="popup_counter_wrap">
+            {currentCounter!==null &&
+            <div className="popup_counter_wrap">
                 <h3>{currentCounter.counter_name}</h3>
                     {isClear
                         ?

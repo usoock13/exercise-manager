@@ -3,6 +3,8 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
 import { connect } from "react-redux";
+import { wrapper } from "../store/modules";
+
 import ComponentByResolution from '../components/ComponentByResolution';
 import PopupCounter from '../components/Counter/PopupCounter';
 import AddCounterItemButton from '../components/Counter/AddCounterItemButton';
@@ -161,21 +163,25 @@ const CounterPage = (props) => {
     )
 }
 
-export const getServerSideProps = async (props) => {
-    console.log("유황가게");
-    console.log(props.store);
-    let counterItems = await fetch(`http://${props.req.headers.host}/api/post_router`, {
-        method: "POST",
-    })
-    .then(res => {
-        if(res.status !== 200) { return false; }
-        else { return res.json(); }
-    })
-    
-    return {
-        props : {
-            counterItems
-        }
-    };
-}
+// export const getServerSideProps = async (props) => {
+export const getServerSideProps = wrapper.getServerSideProps(store => {
+    async ({ req }) => {
+        console.log("유황가게");
+        console.log(store);
+        let counterItems = await fetch(`http://${req.headers.host}/api/post_router`, {
+            method: "POST",
+        })
+        .then(res => {
+            if(res.status !== 200) { return false; }
+            else { return res.json(); }
+        }) || props.store;
+        
+        return {
+            props : {
+                counterItems
+            }
+        };
+    }
+});
+
 export default connect((state) => state)(CounterPage);

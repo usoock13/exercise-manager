@@ -83,11 +83,6 @@ export const deleteCounterAction = (id) => ({
 
 const reducer = (state = initialState, action) => {
     switch(action.type) {
-        case HYDRATE :
-            return ({
-                ...state,
-                ...action.payload
-            })
         case CREATE_COUNTER :
             return ({
                 ...state,
@@ -105,6 +100,7 @@ const reducer = (state = initialState, action) => {
     }
 }
 
-// export default reducer;
-const makeStore = (context) => createStore(reducer);
-export const wrapper = createWrapper(makeStore, { debug: true });
+export default reducer; 
+// ↓ getServerSideProps에서의 store 사용을 위한 wrapping
+// const makeStore = (context) => createStore(reducer);
+// export const wrapper = createWrapper(makeStore, { debug: true });
