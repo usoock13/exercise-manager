@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, compose, applyMiddleware } from 'redux';
 import reducer from '../store/modules';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import { wrapper } from '../store/modules';
 
 import '../static/reset.css';
 import '../static/global_style.css';
@@ -22,4 +23,5 @@ const makeStore = (initialState, options) => {
     return createStore(reducer, initialState, enhancer);
 }
 
-export default createWrapper(makeStore, { debug: true }).withRedux(MyApp);
+// export default createWrapper(makeStore, { debug: true }).withRedux(MyApp);
+export default wrapper.withRedux(MyApp);

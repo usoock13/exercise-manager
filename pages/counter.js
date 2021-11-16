@@ -144,7 +144,16 @@ const CounterPage = (props) => {
                             isActivingPopupCounter={isActivingCounter} 
                             currentCounter={currentCounter}
                         ></PopupCounter>
-
+    const emptyCounterAlert = <div className="empty_counter_alert"
+                                    style={{
+                                        display: "inline-flex",
+                                        width: "100%",
+                                        fontSize: "calc(10px + 2rem)",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                    }}>
+                                아무고토엄소용
+                            </div>
     return (
         <Layout>
             <div className="counter_page_wrap" style={{ display: 'flex', height: "100%" }}>
@@ -155,8 +164,21 @@ const CounterPage = (props) => {
                 <Head>
                     <title>Exercise Manager</title>
                 </Head>
-                <ComponentByResolution>유숙</ComponentByResolution>
-                {simpleCounterList}
+                <ComponentByResolution>
+                    <div maxResolution={1920} default>
+                        유숙
+                    </div>
+                    <div maxResolution={1440}>
+                        유숙숙
+                    </div>
+                    <div maxResolution={720}>
+                        유숙숙숙
+                    </div>
+                </ComponentByResolution>
+                {itemlist.length <= 0
+                    ? emptyCounterAlert
+                    : simpleCounterList
+                }
                 <AddCounterItemButton />
             </div>
         </Layout>
@@ -164,10 +186,8 @@ const CounterPage = (props) => {
 }
 
 // export const getServerSideProps = async (props) => {
-export const getServerSideProps = wrapper.getServerSideProps(store => {
-    async ({ req }) => {
-        console.log("유황가게");
-        console.log(store);
+export const getServerSideProps = wrapper.getServerSideProps((store) => {
+    return (async ({req, store}) => {
         let counterItems = await fetch(`http://${req.headers.host}/api/post_router`, {
             method: "POST",
         })
@@ -181,7 +201,7 @@ export const getServerSideProps = wrapper.getServerSideProps(store => {
                 counterItems
             }
         };
-    }
+    })
 });
 
 export default connect((state) => state)(CounterPage);

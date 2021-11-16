@@ -10,15 +10,13 @@ const store = (state = {}, action) => {
     }
 }
 
-const makeStore = (context) => createStore(combineReducers({
+const reducer = combineReducers({
     store,
     counter
-}));
-export const wrapper = createWrapper(makeStore, { debug: true});
-export default combineReducers({
-    store,
-    counter
-});
+})
+const makeStore = (context) => createStore(reducer);
+export const wrapper = createWrapper(makeStore, { debug: true });
+export default reducer;
 
 // export const wrapper = createWrapper(combineReducers({
 //     store,

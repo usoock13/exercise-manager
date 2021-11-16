@@ -17,7 +17,7 @@ const PopupCounter = ({ setIsActivePopupCounter, isActivingPopupCounter, current
     }
     
     const [currentTurn, setCurrentTurn] = useState(currentCounter && useState(currentCounter['current_turn']) || 0);
-    console.log("유숙은 자유에요 : ", currentTurn);
+    // console.log("current turn from 'PopupCounter.js' : ", currentTurn);
     const [isClear, setIsClear] = useState(false);
 
     const OnClickExitButton = () => {
