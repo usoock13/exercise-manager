@@ -1,12 +1,20 @@
 import React, { useEffect } from 'react';
 
+const RENDER_ERROR_COMPONENT = <div>rendering error</div>;
+
 const ComponentByResolution = ({ children }) => {
     console.dir(children);
+
+    if(!children) {
+        console.error("CRB dont have any child.");
+        return RENDER_ERROR_COMPONENT;
+    }
+    if(children.length <= 1) return children;
 
     for(let i=0; i<children.length; i++) {
         if(!children[i].props.maxResolution) {
             console.error("child div must has 'maxResolution' ::", i);
-            return <div>rendering error</div>
+            return RENDER_ERROR_COMPONENT;
         } else if(typeof children[i].props.maxResolution !== 'number') {
             console.error("type of child's 'maxResolution' is not a Number ::", i);
         }
@@ -20,7 +28,7 @@ const ComponentByResolution = ({ children }) => {
         
     }
     
-    return <div>{children}</div>
+    return <div>{children[0]}</div>
 }
 
 export default ComponentByResolution;

@@ -166,13 +166,13 @@ const CounterPage = (props) => {
                 </Head>
                 <ComponentByResolution>
                     <div maxResolution={1920} default>
-                        유숙
+                        1920
                     </div>
                     <div maxResolution={1440}>
-                        유숙숙
+                        1440
                     </div>
                     <div maxResolution={720}>
-                        유숙숙숙
+                        720
                     </div>
                 </ComponentByResolution>
                 {itemlist.length <= 0
@@ -187,14 +187,15 @@ const CounterPage = (props) => {
 
 // export const getServerSideProps = async (props) => {
 export const getServerSideProps = wrapper.getServerSideProps((store) => {
-    return (async ({req, store}) => {
+    console.log(store.getState());
+    return (async ({ req }) => {
         let counterItems = await fetch(`http://${req.headers.host}/api/post_router`, {
             method: "POST",
         })
         .then(res => {
             if(res.status !== 200) { return false; }
             else { return res.json(); }
-        }) || props.store;
+        }) || store.getState().counter.counters;
         
         return {
             props : {
