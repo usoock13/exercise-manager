@@ -166,13 +166,13 @@ const CounterPage = (props) => {
                 </Head>
                 <ComponentByResolution>
                     <div maxResolution={1920} default>
-                        1920
+                        가로 너비 : 1920
                     </div>
                     <div maxResolution={1440}>
-                        1440
+                        가로 너비 : 1440
                     </div>
                     <div maxResolution={720}>
-                        720
+                        가로 너비 : 720
                     </div>
                 </ComponentByResolution>
                 {itemlist.length <= 0

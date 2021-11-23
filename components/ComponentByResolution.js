@@ -20,6 +20,12 @@ const ComponentByResolution = ({ children }) => {
         }
     }
 
+    let components = {};
+    children.forEach(child => {
+        components[components.length] = child.props.children;
+    })
+    console.log(components);
+
     useEffect(() => {
         window.addEventListener('resize', ComponentRerenderingByResolution);
     }, [])
