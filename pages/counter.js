@@ -62,7 +62,7 @@ const CounterItem = ({ setIsActiveCounter, itemData, counterItemClickHandler }) 
 }
 
 const CounterPage = (props) => {
-    console.log(props);
+    // console.log(props);
 
     const dummyCounterItems = [];
     const counterItems = !props.counterItems ? dummyCounterItems : props.counterItems;
@@ -123,7 +123,7 @@ const CounterPage = (props) => {
         item['current_turn'] = 0;
         itemlist.push(
             <CounterItem
-                key={item.id} 
+                key={item['counter_id']} 
                 itemData={item} 
                 setIsActiveCounter={setIsActiveCounter}
                 counterItemClickHandler={() => {counterItemClickHandler(item)}}
@@ -165,13 +165,13 @@ const CounterPage = (props) => {
                     <title>Exercise Manager</title>
                 </Head>
                 <ComponentByResolution>
-                    <div maxResolution={1920} default>
+                    <div maxresolution={1920} default>
                         가로 너비 : 1920
                     </div>
-                    <div maxResolution={1440}>
+                    <div maxresolution={1440}>
                         가로 너비 : 1440
                     </div>
-                    <div maxResolution={720}>
+                    <div maxresolution={720}>
                         가로 너비 : 720
                     </div>
                 </ComponentByResolution>
