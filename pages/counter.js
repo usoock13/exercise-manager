@@ -49,11 +49,46 @@ const CounterItem = ({ setIsActiveCounter, itemData, counterItemClickHandler }) 
                     box-shadow: 0 0 .4rem rgba(0, 0, 0, .25);
                     opacity: 1;
                 }
+                .counter_itembox>h5 {
+                    font-size: 2.3rem;
+                }
+                .counter_itembox>p {
+                    font-size: 1.7rem;
+                    font-weight: 300;
+                }
+                @media screen and (max-width: 1200px) {
+                    .counter_itembox {
+                        text-align: center;
+                        padding: 3rem 1.9rem;
+                    }
+                    .counter_itembox>h5 {
+                        font-size: 4.5rem;
+                        font-weight: 700;
+                    }
+                    .counter_itembox>.counter_thumbnail>p {
+                        font-size: 2.9rem;
+                        font-weight: 400;
+                    }
+                }
+                @media screen and (max-width: 720px) {
+                    .counter_itembox {
+                        text-align: center;
+                        padding: 4.9rem 1.9rem;
+                    }
+                    .counter_itembox>h5 {
+                        font-size: 7.5rem;
+                        font-weight: 700;
+                    }
+                    .counter_itembox>.counter_thumbnail>p {
+                        font-size: 4.9rem;
+                        font-weight: 400;
+                    }
+                }
             `}
             </style>
-            <h5 style={{ fontSize: "2.3rem" }}>{itemData[DB_COUNTER_NAME]}</h5>
+            <h5 style={{}}>{itemData[DB_COUNTER_NAME]}</h5>
             <div className="counter_thumbnail">
-                <p style={{ fontSize: "1.5rem", fontWeight: 300 }}>
+                <p style={{}}>
                     {counters}
                 </p>
             </div>
@@ -82,14 +117,12 @@ const CounterPage = (props) => {
         flexBasis: 0,
         boxSizing: 'border-box',
     } // 기본 베이스로 깔리는 Item List Style (ul 태그)
-    const [notCountingListStyle, setNotCountingListStyle] = useState({
+    const notCountingListStyle = {
         gridTemplateColumns: `repeat(${6}, 1fr)`,
         gridTemplateRows: 'repeat(3, 1fr)',
         gridGap: '2%',
-    }) // ...카운터 비활성화 중일 때
+    } // ...카운터 비활성화 중일 때
     const isCountingListStyle = {
-        gridTemplateColumns: 'repeat(1, 1fr)',
-        gridTemplateRows: 'repeat(5, 1fr)',
         gridGap: '1%',
     } // ...카운터 활성화 중일 때
     const itemlist = [];
@@ -97,27 +130,6 @@ const CounterPage = (props) => {
     const counterItemClickHandler = (targetCounterItem) => {
         setCurrentCounter(targetCounterItem);
     }
-
-    useEffect(() => {
-        setNotCountingListStyle({
-            ...notCountingListStyle,
-            gridTemplateColumns: `repeat(${6}, 1fr)`
-       })
-        window.addEventListener('resize', () => {
-            if(window.innerWidth > 1420) setNotCountingListStyle({
-                 ...notCountingListStyle,
-                 gridTemplateColumns: `repeat(${6}, 1fr)`
-            });
-            else if(window.innerWidth > 720) setNotCountingListStyle({
-                ...notCountingListStyle,
-                gridTemplateColumns: `repeat(${3}, 1fr)`
-            });
-            else setNotCountingListStyle({
-                ...notCountingListStyle,
-                gridTemplateColumns: `repeat(${1}, 1fr)`
-            });
-        })
-    }, [])
     
     counterItems.forEach((item, index) => {
         item['current_turn'] = 0;
@@ -131,14 +143,6 @@ const CounterPage = (props) => {
         )
     })
 
-    const counterListStyle = {
-        ...baseListStyle,
-        ...(isActivingCounter ? isCountingListStyle : notCountingListStyle)
-    }
-    const simpleCounterList = <ul className="simple_counter_list" 
-                                style={counterListStyle}>
-                                        {itemlist}
-                            </ul>
     const popupCounter = <PopupCounter 
                             setIsActivePopupCounter={setIsActiveCounter} 
                             isActivingPopupCounter={isActivingCounter} 
@@ -156,28 +160,88 @@ const CounterPage = (props) => {
                             </div>
     return (
         <Layout>
-            <div className="counter_page_wrap" style={{ display: 'flex', height: "100%" }}>
+            <div className="counter_page_wrap" style={{}}>
                 <style jsx>
-                {``}
+                {`
+                    .counter_page_wrap {
+                        display: flex;
+                        width: 100%;
+                        height: 100%;
+                    }
+
+                    @media screen and (max-width: 1200px) {
+                        .counter_page_wrap {
+                            flex-direction: column;
+                        }
+                    }
+                    @media screen and (max-width: 720px) {
+                    }
+                `}
                 </style>
                 {popupCounter}
                 <Head>
                     <title>Exercise Manager</title>
                 </Head>
-                <ComponentByResolution>
-                    <div maxresolution={1920} default>
-                        가로 너비 : 1920
-                    </div>
-                    <div maxresolution={1440}>
-                        가로 너비 : 1440
-                    </div>
-                    <div maxresolution={720}>
-                        가로 너비 : 720
-                    </div>
-                </ComponentByResolution>
                 {itemlist.length <= 0
                     ? emptyCounterAlert
-                    : simpleCounterList
+                    : 
+                    <ComponentByResolution>
+                        <div style={{flexGrow: 1}} maxresolution={1920} default>
+                            <ul className="simple_counter_list" 
+                                style={{
+                                    ...baseListStyle,
+                                    ...(isActivingCounter 
+                                        ? {
+                                            ...isCountingListStyle,
+                                            gridTemplateColumns: 'repeat(1, 1fr)',
+                                            gridTemplateRows: 'repeat(5, 1fr)',
+                                        }
+                                        : {
+                                            ...notCountingListStyle,
+                                            gridTemplateColumns: `repeat(6, 1fr)`
+                                       })
+                                }}>
+                                    {itemlist}
+                            </ul>
+                        </div>
+                        <div style={{flexGrow: 1}} maxresolution={1200}>
+                            <ul className="simple_counter_list" 
+                                style={{
+                                    ...baseListStyle,
+                                    ...(isActivingCounter 
+                                        ? {
+                                            ...isCountingListStyle,
+                                            gridTemplateColumns: `repeat(5, 1f)`,
+                                            gridTemplateRows: `repeat(1, 1f)`
+                                        }
+                                        :
+                                        {
+                                            ...notCountingListStyle,
+                                            gridTemplateColumns: `repeat(3, 1fr)`
+                                       })
+                                }}>
+                                    {itemlist}
+                            </ul>
+                        </div>
+                        <div style={{flexGrow: 1}} maxresolution={720}>
+                            <ul className="simple_counter_list" 
+                                style={{
+                                    ...baseListStyle,
+                                    ...(isActivingCounter 
+                                        ? {
+                                            ...isCountingListStyle,
+                                            gridTemplateColumns: `repeat(3, 1f)`,
+                                            gridTemplateRows: `repeat(1, 1f)`
+                                        }
+                                        : {
+                                            ...notCountingListStyle,
+                                            gridTemplateColumns: `repeat(1, 1fr)`
+                                       })
+                                }}>
+                                    {itemlist}
+                            </ul>
+                        </div>
+                    </ComponentByResolution>
                 }
                 <AddCounterItemButton />
             </div>

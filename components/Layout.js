@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const Layout = ({children}) => (
     <div className="layout" style={{
         display: 'flex',
+        width: '100%',
         flexDirection: 'row'
     }}>
         <Header headerStyle={{ flexGrow: "1", flexBasis: 0 }} />

@@ -16,7 +16,7 @@ const PopupCounter = ({ setIsActivePopupCounter, isActivingPopupCounter, current
         flexGrow: 9,
     }
     
-    const [currentTurn, setCurrentTurn] = useState(currentCounter && useState(currentCounter['current_turn']) || 0);
+    const [currentTurn, setCurrentTurn] = useState(currentCounter && currentCounter['current_turn'] || 0);
     // console.log("current turn from 'PopupCounter.js' : ", currentTurn);
     const [isClear, setIsClear] = useState(false);
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 
 const RENDER_ERROR_COMPONENT = <div>rendering error</div>;
 
@@ -26,8 +26,8 @@ const ComponentByResolution = ({ children }) => {
     })
 
     const [resolution, setResolution] = useState(0);
-
-    useEffect(() => {
+    
+    useLayoutEffect(() => {
         window.addEventListener('resize', ComponentRerenderingByResolution);
         setResolution(window.innerWidth);
     }, []);
@@ -38,7 +38,9 @@ const ComponentByResolution = ({ children }) => {
 
     const resolutionArray = Object.keys(resolutionMap).sort((a, b) => a - b);
     for(let i=0; i<resolutionArray.length; i++) {
-        if(resolution <= Number(resolutionArray[i])) return resolutionMap[resolutionArray[i]];
+        if(resolution <= Number(resolutionArray[i])) {
+            return resolutionMap[resolutionArray[i]];
+        }   
     }
     return <div>{children[0]}</div>
 }
